@@ -1,16 +1,10 @@
 import { Ship } from "./ship.js"
 
 export class gameBoard{
-    constructor(ships ){
-        this.ships = ships
-    }
-
-    createShips() {
-        const carrier = new Ship(5)
-        const battleship = new Ship(4)
-        const cruiser = new Ship(3)
-        const submarine = new Ship(3)
-        const destroyer = new Ship(2)
+    constructor(ships){
+        this.ships = []
+        this.missedShots = []
+        this.hitShots = []
     }
 
     createGrid(){
@@ -26,30 +20,71 @@ export class gameBoard{
         return gridArray
     }
 
-    storeShips(ship) {
+    shipsPosition(ship) {
         const xCor = Math.floor(Math.random() * (10 - ship))
         const yCor = Math.floor(Math.random() * (10 - ship))
 
+        let dummyArr1 = []
+        let dummyArr2 = []
         const shipCor = []
 
         for (let i = 0; i < ship; i++){
             let finalCor1 = [xCor, (yCor + i)]
-            let dummyArr1 = []
-            dummyArr1.push(finalCor1)
-            
-            let finalCor2 = [(xCor + i), yCor]
-            let dummyArr2 = []
-            dummyArr2.push(finalCor2)
 
-            const randNum = Math.random()
+            dummyArr1.push(finalCor1)
+            let finalCor2 = [(xCor + i), yCor]
+
+            dummyArr2.push(finalCor2)
             
-            if(randNum > .5){
-                shipCor.push(dummyArr1)
-            } else {
-                shipCor.push(dummyArr2)
-            }
+        }
+        const randNum = Math.random()
+        if(randNum > .5){
+            shipCor.push(dummyArr1)
+        } else {
+            shipCor.push(dummyArr2)
         }
         return shipCor
     }
-}
 
+    storeShips() {
+        const ships = [
+            new Ship(5), // Carrier
+            new Ship(4), // Battleship
+            new Ship(3), // Cruiser
+            new Ship(3), // Submarine
+            new Ship(2)  // Destroyer
+        ];
+        
+        let shipCors = []
+
+        for (let ship of ships){
+            let cor = this.shipsPosition(ship.length)
+            shipCors.push(cor)
+        }
+        
+        let mainGrid = this.createGrid()
+       
+        shipCors.forEach(ship => {
+            ship[0].forEach(coordinate => {
+                mainGrid[coordinate[1]][coordinate[0]] = "X";
+            });
+        });
+        return mainGrid
+    }
+
+    recieveAttack(x,y) {
+        let grid = this.storeShips()
+        if (grid[y][x] === "X"){
+            this.hitShots.push([x,y])
+            hit() //insert ship constructer hit method
+        } else {
+            this.missedShots.push([x,y])
+        }
+    }
+
+    // isSunk(ship) {
+    //     const ships = [
+           
+    // }
+
+}
