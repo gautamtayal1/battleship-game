@@ -1,3 +1,41 @@
 *{
+    background-color: rgb(173, 173, 173);
+    text-align: center;
+}
+
+h1{
+    text-align: center;
+}
+
+.btn-box{
+    height: 15vh;
+
+}
+
+button{
+    height: 50px;
+    margin: 20px;
+}
+
+.main-container{
+    height: 70vh;
     background-color: grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 100px;
+}
+
+.player-outer-box, .comp-outer-box{
+    height: 60vh;
+    background-color: aqua;
+    width: 70vh;
+}
+
+.player-game-container, .comp-game-container{
+    height: 50vh;
+    background-color: blueviolet;
+    width: 80%;
+    margin-left: 40px;
+    margin-top: 20px;
 }
