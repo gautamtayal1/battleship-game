@@ -1,10 +1,17 @@
 import { Ship } from "./ship.js"
 
 export class gameBoard{
-    constructor(ships){
-        this.ships = []
+    constructor(){
+        this.ships = {
+            carrier: new Ship(5),
+            battleship: new Ship(4),
+            cruiser: new Ship(3),
+            submarine: new Ship(3),
+            destroyer: new Ship(2) 
+        }
         this.missedShots = []
         this.hitShots = []
+        this.mainGrid = this.createGrid()
     }
 
     createGrid(){
@@ -17,7 +24,8 @@ export class gameBoard{
             gridArray.push(singleGrid)
             singleGrid = []
         }
-        return gridArray
+        console.log(gridArray)
+        return gridArray 
     }
 
     shipsPosition(ship) {
@@ -47,44 +55,46 @@ export class gameBoard{
     }
 
     storeShips() {
-        const ships = [
-            new Ship(5), // Carrier
-            new Ship(4), // Battleship
-            new Ship(3), // Cruiser
-            new Ship(3), // Submarine
-            new Ship(2)  // Destroyer
-        ];
-        
         let shipCors = []
 
-        for (let ship of ships){
-            let cor = this.shipsPosition(ship.length)
-            shipCors.push(cor)
+        for (let ship of Object.values(this.ships)) {
+            let cor = this.shipsPosition(ship.length);
+            ship.coordinates = cor[0]; // Store the coordinates in the ship object
+            shipCors.push(cor);
+            console.log(shipCors);
         }
         
-        let mainGrid = this.createGrid()
-       
         shipCors.forEach(ship => {
             ship[0].forEach(coordinate => {
-                mainGrid[coordinate[1]][coordinate[0]] = "X";
+                this.mainGrid[coordinate[1]][coordinate[0]] = "X";
             });
         });
-        return mainGrid
+        console.log(Object.values(this.ships))
+        return this.mainGrid
     }
 
     recieveAttack(x,y) {
-        let grid = this.storeShips()
-        if (grid[y][x] === "X"){
+        if (this.mainGrid[y][x] === "X"){
             this.hitShots.push([x,y])
-            hit() //insert ship constructer hit method
+            let shipObj = Object.values(this.ships)
+            for (let i = 0; i < 5; i++){
+                for (let j = 0; j < shipObj[i].coordinates.length; j++){
+                    if (x === shipObj[i].coordinates[j][1] && y == shipObj[i].coordinates[j][0]){
+                        shipObj[i].hit()
+
+                        if (shipObj[i].isSunk()){
+                            console.log("sunk")
+                        }
+                    }
+                }
+            }
         } else {
             this.missedShots.push([x,y])
         }
     }
 
-    // isSunk(ship) {
-    //     const ships = [
-           
-    // }
-
+    allShipsSunk() {
+        return Object.values(this.ships).every(ship => ship.isSunk());
+    }
+    
 }
