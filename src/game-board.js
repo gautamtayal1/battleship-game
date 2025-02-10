@@ -95,6 +95,6 @@ export class gameBoard{
 
     allShipsSunk() {
         return Object.values(this.ships).every(ship => ship.isSunk());
+
     }
-    
 }

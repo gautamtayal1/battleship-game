@@ -1,7 +1,12 @@
 import "./styles.css";
 import { gameBoard } from "./game-board.js";
+import { Player } from "./player.js";
+import { randomize } from "./DOM.js";
+
+randomize()
 
 
 const board = new gameBoard()
-console.log(board.storeShips());
-console.log("hello")
+const player = new Player()
+console.log(player.board);
+

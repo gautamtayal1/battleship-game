@@ -39,3 +39,19 @@ button{
     margin-left: 40px;
     margin-top: 20px;
 }
+
+
+.grid-boxes {
+width: 30px;
+height: 30px;
+border: 1px solid black;
+display: inline-block;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(10, 30px); /* 10 columns */
+    grid-template-rows: repeat(10, 30px); /* 10 rows */
+    gap: 2px;
+}
+    
